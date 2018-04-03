@@ -4,7 +4,7 @@ language: go
 go:
   - "1.10"
 
-go_import_path: ./
+go_import_path: $GOPATH
 
 services:
   - docker
@@ -12,7 +12,10 @@ services:
 install:
   - mkdir -p "${GOPATH}/bin"
   - curl https://glide.sh/get | sh
+  - glide --version
 
-before_script: cd src
+before_script:
+  - pwd
+  - cd src
 
 script: make glide linux build docker-build docker-push
