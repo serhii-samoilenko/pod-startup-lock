@@ -1,5 +1,5 @@
 # Simple time-based lock service with HTTP interface.
-#### Designed at [Oath](https://www.oath.com) to solve the [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) during multiple applications startup in the Kubernetes [Init container](https://kubernetes.io) cluster. 
+#### Designed at [Oath](https://www.oath.com) to solve the [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) during multiple applications startup in the [Kubernetes](https://kubernetes.io) cluster. 
 
 ## The Problem
 Starting multiple applications simultaneously on the same host may cause a performance bottleneck.
