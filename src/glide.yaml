@@ -1,0 +1,13 @@
+package: .
+ignore:
+- lock
+- common
+import:
+- package: k8s.io/client-go
+  version: kubernetes-1.10.0
+- package: github.com/stretchr/testify
+  version: v1.2.1
+- package: github.com/davecgh/go-spew/spew
+  version: v1.1.0
+- package: github.com/pmezard/go-difflib/difflib
+  version: v1.0.0

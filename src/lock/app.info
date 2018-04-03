@@ -1,0 +1,2 @@
+APP_NAME=lock
+DOCKER_NAME=startup-lock
