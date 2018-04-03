@@ -9,6 +9,8 @@ go_import_path: ./
 services:
   - docker
 
-install: true
+install:
+  - mkdir -p "${GOPATH}/bin"
+  - curl https://glide.sh/get | sh
 
 script: make -C src glide linux build docker-build docker-push
