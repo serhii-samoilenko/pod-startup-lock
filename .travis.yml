@@ -1,0 +1,14 @@
+sudo: required
+
+language: go
+go:
+  - "1.10"
+
+go_import_path: ./
+
+services:
+  - docker
+
+install: true
+
+script: make -C src glide linux build docker-build docker-push

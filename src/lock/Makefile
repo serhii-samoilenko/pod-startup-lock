@@ -28,4 +28,4 @@ docker-build: build
 docker-push: docker-build
 	@echo ">>> Make $(APP_NAME): Pushing docker image"
 	docker login -u $(DOCKER_USER) -p $(DOCKER_PW) $(DOCKER_URL)
-	docker push "$(DOCKER_URL)/$(APP_NAME):$(APP_VERSION)"
+	docker push "$(DOCKER_URL)/$(DOCKER_NAME):$(APP_VERSION)"
