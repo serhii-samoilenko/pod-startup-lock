@@ -4,8 +4,6 @@ language: go
 go:
   - "1.10"
 
-go_import_path: $GOPATH
-
 services:
   - docker
 
