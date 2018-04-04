@@ -1,0 +1,29 @@
+# [prune]
+
+ignored = [
+  "common",
+  "init",
+  "k8s-health",
+  "lock"
+]
+
+[[constraint]]
+  name = "k8s.io/client-go"
+  version = "kubernetes-1.10.0"
+
+#[[constraint]]
+#  branch = "master"
+#  name = "k8s.io/api"
+#
+#[[constraint]]
+#  branch = "master"
+#  name = "k8s.io/apimachinery"
+#
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.2.1"
+
+[prune]
+  go-tests = true
+  unused-packages = true
