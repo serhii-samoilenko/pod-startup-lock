@@ -10,12 +10,6 @@ services:
   - docker
 
 install:
-  - mkdir -p "${GOPATH}/bin"
-  - curl https://glide.sh/get | sh
-  - glide --version
+  - go get -u github.com/golang/dep/cmd/dep
 
-before_script:
-  - pwd
-  - cd src
-
-script: make glide linux build docker-build docker-push
+script: make linux build docker-build docker-push

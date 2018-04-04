@@ -6,10 +6,10 @@
 package main
 
 import (
-    "k8s-health/config"
-    "k8s-health/healthcheck"
-    "k8s-health/k8s"
-    "k8s-health/service"
+    "pod-startup-lock/k8s-health/config"
+    "pod-startup-lock/k8s-health/healthcheck"
+    "pod-startup-lock/k8s-health/k8s"
+    "pod-startup-lock/k8s-health/service"
 )
 
 func main() {

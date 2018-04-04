@@ -6,8 +6,8 @@
 package k8s
 
 import (
-    . "common/util"
-    . "k8s-health/config"
+    . "pod-startup-lock/common/util"
+    . "pod-startup-lock/k8s-health/config"
     "k8s.io/client-go/rest"
     "k8s.io/client-go/kubernetes"
     meta "k8s.io/apimachinery/pkg/apis/meta/v1"

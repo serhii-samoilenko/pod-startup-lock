@@ -3,7 +3,7 @@
  * Licensed under the terms of the MIT license. See LICENSE file in the project root for terms.
  */
 
- package util
+package util
 
 func ArrayContains(haystack []string, needle string) bool {
     for _, key := range haystack {

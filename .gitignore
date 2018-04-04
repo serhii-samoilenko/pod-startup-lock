@@ -1,5 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Go template
 # Binaries for programs and plugins
 *.exe
 *.dll
@@ -12,14 +10,16 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
-.glide/
-
+# Idea files
+.idea
 *.iml
 *.ipr
 *.iws
 
-.idea
+# Dep lockfile
+Gopkg.lock
+
+# Build output
 bin
 pkg
 vendor

@@ -6,10 +6,10 @@
 package service
 
 import (
+    "pod-startup-lock/lock/state"
     "testing"
     "net/http"
     "net/http/httptest"
-    "lock/state"
     "time"
 )
 

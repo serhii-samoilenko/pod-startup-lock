@@ -20,11 +20,11 @@ windows:
 	GOOS=windows
     export GOOS
 
-glide:
+dep:
 	@echo ">>> Make: Updating dependencies"
-	glide update --strip-vendor --skip-test
+	dep ensure
 
-build:
+build: dep
 	@echo ">>> Make: Building all modules"
 	$(MAKE) -C k8s-health
 	$(MAKE) -C init

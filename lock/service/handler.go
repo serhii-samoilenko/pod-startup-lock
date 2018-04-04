@@ -6,8 +6,8 @@
 package service
 
 import (
+    "pod-startup-lock/lock/state"
     "net/http"
-    "lock/state"
     "log"
     "net/url"
     "time"

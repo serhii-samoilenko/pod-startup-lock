@@ -6,14 +6,14 @@
 package healthcheck
 
 import (
-    "k8s-health/k8s"
+    "pod-startup-lock/k8s-health/config"
+    "pod-startup-lock/k8s-health/k8s"
+    "pod-startup-lock/common/util"
     "time"
     "log"
-    "common/util"
     "k8s.io/api/extensions/v1beta1"
     "k8s.io/api/core/v1"
     "fmt"
-    "k8s-health/config"
 )
 
 type HealthChecker struct {

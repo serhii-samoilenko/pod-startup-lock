@@ -6,9 +6,9 @@
 package main
 
 import (
-    "lock/config"
-    "lock/service"
-    "lock/state"
+    "pod-startup-lock/lock/config"
+    "pod-startup-lock/lock/service"
+    "pod-startup-lock/lock/state"
 )
 
 func main() {

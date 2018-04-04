@@ -6,7 +6,7 @@
 package service
 
 import (
-    . "lock/config"
+    . "pod-startup-lock/lock/config"
     "log"
     "time"
     "net"

@@ -6,7 +6,7 @@
 package config
 
 import (
-    . "common/util"
+    . "pod-startup-lock/common/util"
     "log"
     "flag"
     "time"
