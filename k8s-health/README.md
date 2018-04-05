@@ -42,7 +42,7 @@ You may specify additional command line options to override defaults:
 | Option        | Default | Description |
 | ------------- |---------| ----------- |
 | `--host`      | 0.0.0.0 | Address to bind |
-| `--port`      | 9999    | Service HTTP port |
+| `--port`      | 9999    | Port to bind    |
 | `--baseUrl`   | *none*  | K8s API Base Url. **Only to run in the out-of-cluster mode** |
 | `--namespace` | *none*  | Target K8s namespace where to perform DaemonSets healthcheck. Leave blank for all namespaces |
 | `--hostNet`   |         | Check only DaemonSets bind to the `host network` |
@@ -78,9 +78,14 @@ spec:
         kubernetes.io/role: node
       containers:
         - name: startup-lock-k8s-health-container
-          image: local/startup-lock-k8s-health:1.0
-          args: ["--port", "9000", "--hostNet"]
+          image: ssamoilenko/startup-lock-k8s-health
+          args: ["--port", "9999", "--hostNet"]
           ports:
             - name: http
-              containerPort: 9000
+              containerPort: 9999
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
 ```

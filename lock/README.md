@@ -37,7 +37,7 @@ You may specify additional command line options to override defaults:
 | Option      | Default | Description |
 | ----------- |---------| ----------- |
 | `--host`    | 0.0.0.0 | Address to bind |
-| `--port`    | 8888    | Service HTTP port |
+| `--port`    | 8888    | Port to bind    |
 | `--locks`   | 1       | Number of locks allowed to be acquired at the same time |
 | `--timeout` | 10      | Default time until the acquired lock is released, seconds |
 | `--check`   | *none*  | List of endpoints to check before allow locking, see example below |
@@ -47,11 +47,11 @@ You may specify additional command line options to override defaults:
 ## How to run locally
 Example with some command line options:
 ```bash
-go run src/lock/main.go --port 9000 --locks 3 --check http://myelasticsearch:9200 --check tcp://mymongodb:27017
+go run src/lock/main.go --port 9000 --locks 2 --check http://myelasticsearch:9200 --check tcp://mymongodb:27017
 ```
 
 ## How to deploy to Kubernetes
-The preferable way is to deploy as a DaemonSet. Sample deployment YAML:
+The preferable way is to deploy as a DaemonSet. Sample deployment YAML (notice checked endpoint):
 ```yaml
 apiVersion: extensions/v1beta1
 kind: DaemonSet
@@ -69,9 +69,14 @@ spec:
         kubernetes.io/role: node
       containers:
         - name: startup-lock-container
-          image: local/startup-lock:1.0
-          args: ["--port", "8000", "--locks", "3", "--check", "localhost:9000"]
+          image: ssamoilenko/startup-lock
+          args: ["--port", "8888", "--locks", "1", "--check", "http://$(NODE_NAME):9999"]
           ports:
             - name: http
-              containerPort: 8000
+              containerPort: 8888
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
 ```

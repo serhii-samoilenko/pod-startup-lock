@@ -32,11 +32,16 @@ metadata:
     app: myapp
 spec:
   containers:
-  - name: myapp-container
-    image: busybox
-    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    - name: myapp-container
+      image: busybox
+      command: ['sh', '-c', 'echo The app is running! && sleep 3600']
   initContainers:
-  - name: startup-lock-init-container
-    image: local/startup-lock-init:1.0
-    args: ["--port", "9000", "--timeout", "15"]
+    - name: startup-lock-init-container
+      image: ssamoilenko/startup-lock-init
+      args: ["--host", "$(NODE_NAME)", "--port", "8888", "--timeout", "15"]
+      env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
 ```
