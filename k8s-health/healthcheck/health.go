@@ -6,9 +6,9 @@
 package healthcheck
 
 import (
-    "pod-startup-lock/k8s-health/config"
-    "pod-startup-lock/k8s-health/k8s"
-    "pod-startup-lock/common/util"
+    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/config"
+    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/k8s"
+    "github.com/serhii-samoilenko/pod-startup-lock/common/util"
     "time"
     "log"
     "k8s.io/api/extensions/v1beta1"

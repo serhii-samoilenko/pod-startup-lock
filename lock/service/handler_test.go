@@ -6,7 +6,7 @@
 package service
 
 import (
-    "pod-startup-lock/lock/state"
+    "github.com/serhii-samoilenko/pod-startup-lock/lock/state"
     "testing"
     "net/http"
     "net/http/httptest"
