@@ -10,4 +10,4 @@ services:
 install:
   - go get -u github.com/golang/dep/cmd/dep
 
-script: make linux build docker-build docker-push
+script: make dep linux docker-push-latest

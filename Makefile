@@ -1,7 +1,3 @@
-# App info for docker build
-app ?= version.info
-include $(app)
-export $(shell sed 's/=.*//' $(app))
 
 .DEFAULT_GOAL := build
 
@@ -24,7 +20,7 @@ dep:
 	@echo ">>> Make: Updating dependencies"
 	dep ensure
 
-build: dep
+build:
 	@echo ">>> Make: Building all modules"
 	$(MAKE) -C k8s-health
 	$(MAKE) -C init
@@ -41,3 +37,9 @@ docker-push:
 	$(MAKE) -C k8s-health docker-push
 	$(MAKE) -C init docker-push
 	$(MAKE) -C lock docker-push
+
+docker-push-latest:
+	@echo ">>> Make: Pushing all docker images with latest tag"
+	$(MAKE) -C k8s-health docker-push-latest
+	$(MAKE) -C init docker-push-latest
+	$(MAKE) -C lock docker-push-latest
