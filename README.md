@@ -1,4 +1,7 @@
 # Simple time-based lock service with HTTP interface.
+
+[![Build Status](https://travis-ci.org/serhii-samoilenko/pod-startup-lock.svg?branch=master)](https://travis-ci.org/serhii-samoilenko/pod-startup-lock)
+
 #### Designed at [Oath](https://www.oath.com) to solve the [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) during multiple applications startup in the [Kubernetes](https://kubernetes.io) cluster. 
 
 ## The Problem
