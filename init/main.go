@@ -44,7 +44,7 @@ func main() {
 func acquireLock(client *http.Client, url string) bool {
 	resp, err := client.Get(url)
 	if err != nil {
-		log.Printf("Error occured: '%v'", err)
+		log.Printf("Error occurred: '%v'", err)
 		return false
 	}
 	if resp.StatusCode != 200 {

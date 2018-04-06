@@ -23,7 +23,7 @@ func RetryOrPanic(attempts int, sleep time.Duration, call func() (interface{}, e
 		if i >= (attempts - 1) {
 			log.Panicf("Failed after %d attempts, last error: %v", attempts, err)
 		}
-		log.Println("Error occured, will retry:", err)
+		log.Println("Error occurred, will retry:", err)
 		time.Sleep(sleep * time.Second)
 	}
 }
