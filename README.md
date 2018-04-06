@@ -20,17 +20,17 @@ So moments of application container starts will be distributed in time.
 ## Components
 See Readmes in subfolders for details.
 
-* #### [Lock](src/lock/README.md)
+* #### [Lock](lock/README.md)
   HTTP service to be deployed one instance per Node (as a DaemonSet).
   Returns code `200 OK` as a response to the first request.
   Returns `423 Locked` to the subsequent requests until timeout exceeded.
   May depend on additional endpoint check.
   
-* #### [Init](src/init/README.md)
+* #### [Init](init/README.md)
   Lightweight client for the Lock service. To be deployed as Init Container alongside the main application container.
   Periodically tries to acquire the lock. Once succeeded, terminates, allowing the main container to start running.
   
-* #### [K8s-health](src/k8s-health/README.md)
+* #### [K8s-health](k8s-health/README.md)
   Optional component. Performs healthcheck of Kubernetes DaemonSets.
   May be used by Lock service to postpone lock acquiring until all DaemonSets on the Node are up and running.
 
