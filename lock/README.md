@@ -47,7 +47,7 @@ You may specify additional command line options to override defaults:
 ## How to run locally
 Example with some command line options:
 ```bash
-go run src/lock/main.go --port 9000 --locks 2 --check http://myelasticsearch:9200 --check tcp://mymongodb:27017
+go run lock/main.go --port 9000 --locks 2 --check http://myelasticsearch:9200 --check tcp://mymongodb:27017
 ```
 
 ## How to deploy to Kubernetes

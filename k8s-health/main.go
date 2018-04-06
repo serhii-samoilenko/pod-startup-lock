@@ -6,22 +6,22 @@
 package main
 
 import (
-    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/config"
-    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/healthcheck"
-    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/k8s"
-    "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/service"
+	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/config"
+	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/healthcheck"
+	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/k8s"
+	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/service"
 )
 
 func main() {
-    conf := config.Parse()
-    conf.Validate()
+	conf := config.Parse()
+	conf.Validate()
 
-    k8sClient := k8s.NewClient(conf)
-    endpointChecker := healthcheck.NewHealthChecker(conf, k8sClient)
-    srv := service.NewService(conf.Host, conf.Port, endpointChecker.HealthFunction())
+	k8sClient := k8s.NewClient(conf)
+	endpointChecker := healthcheck.NewHealthChecker(conf, k8sClient)
+	srv := service.NewService(conf.Host, conf.Port, endpointChecker.HealthFunction())
 
-    go srv.Run()
-    go endpointChecker.Run()
+	go srv.Run()
+	go endpointChecker.Run()
 
-    select {} // Wait forever and let child goroutines run
+	select {} // Wait forever and let child goroutines run
 }

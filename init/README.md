@@ -18,7 +18,7 @@ You may specify additional command line options to override defaults:
 ## How to run locally
 Example with some command line options:
 ```bash
-go run src/init/main.go --port 9000 --timeout 15
+go run init/main.go --port 9000 --timeout 15
 ```
 
 ## How to deploy to Kubernetes

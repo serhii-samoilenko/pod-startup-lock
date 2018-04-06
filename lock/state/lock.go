@@ -6,49 +6,49 @@
 package state
 
 import (
-    "time"
-    "sync"
-    "log"
+	"log"
+	"sync"
+	"time"
 )
 
 type Lock struct {
-    maxCount int
-    mutex    sync.Mutex
-    locks    []time.Time
+	maxCount int
+	mutex    sync.Mutex
+	locks    []time.Time
 }
 
 func NewLock(maxLockCount int) Lock {
-    return Lock{maxCount: maxLockCount}
+	return Lock{maxCount: maxLockCount}
 }
 
 func (l *Lock) Acquire(timeout time.Duration) bool {
-    l.mutex.Lock()
-    defer l.mutex.Unlock()
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
 
-    l.removeExpired()
-    if len(l.locks) < l.maxCount {
-        l.addNew(timeout)
-        log.Printf("Lock acquired: %v of %v, timeout: %v", len(l.locks), l.maxCount, timeout)
-        return true
-    }
-    return false
+	l.removeExpired()
+	if len(l.locks) < l.maxCount {
+		l.addNew(timeout)
+		log.Printf("Lock acquired: %v of %v, timeout: %v", len(l.locks), l.maxCount, timeout)
+		return true
+	}
+	return false
 }
 
 func (l *Lock) addNew(timeout time.Duration) {
-    expireTime := time.Now().Add(timeout)
-    l.locks = append(l.locks, expireTime)
+	expireTime := time.Now().Add(timeout)
+	l.locks = append(l.locks, expireTime)
 }
 
 func (l *Lock) removeExpired() {
-    var live []time.Time
-    for i := 0; i < len(l.locks); i++ {
-        if !isExpired(l.locks[i]) {
-            live = append(live, l.locks[i])
-        }
-    }
-    l.locks = live
+	var live []time.Time
+	for i := 0; i < len(l.locks); i++ {
+		if !isExpired(l.locks[i]) {
+			live = append(live, l.locks[i])
+		}
+	}
+	l.locks = live
 }
 
 func isExpired(t time.Time) bool {
-    return time.Now().After(t)
+	return time.Now().After(t)
 }

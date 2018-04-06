@@ -6,64 +6,64 @@
 package service
 
 import (
-    "github.com/serhii-samoilenko/pod-startup-lock/lock/state"
-    "net/http"
-    "log"
-    "net/url"
-    "time"
-    "strconv"
+	"github.com/serhii-samoilenko/pod-startup-lock/lock/state"
+	"log"
+	"net/http"
+	"net/url"
+	"strconv"
+	"time"
 )
 
 type lockHandler struct {
-    lock            state.Lock
-    defaultTimeout  time.Duration
-    permitAcquiring func() bool
+	lock            state.Lock
+	defaultTimeout  time.Duration
+	permitAcquiring func() bool
 }
 
 func NewLockHandler(lock state.Lock, defaultTimeout time.Duration, permitOperationChecker func() bool) http.Handler {
-    return &lockHandler{lock, defaultTimeout, permitOperationChecker}
+	return &lockHandler{lock, defaultTimeout, permitOperationChecker}
 }
 
 func (h *lockHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    if !h.permitAcquiring() {
-        respondLocked(w, r)
-        return
-    }
-    timeout, ok := getRequestedTimeout(r.URL.Query())
-    if !ok {
-        timeout = h.defaultTimeout
-    }
+	if !h.permitAcquiring() {
+		respondLocked(w, r)
+		return
+	}
+	timeout, ok := getRequestedTimeout(r.URL.Query())
+	if !ok {
+		timeout = h.defaultTimeout
+	}
 
-    if h.lock.Acquire(timeout) {
-        respondOk(w, r)
-    } else {
-        respondLocked(w, r)
-    }
+	if h.lock.Acquire(timeout) {
+		respondOk(w, r)
+	} else {
+		respondLocked(w, r)
+	}
 }
 
 func getRequestedTimeout(values url.Values) (time.Duration, bool) {
-    timeoutStr := values.Get("timeout")
-    if timeoutStr == "" {
-        return 0, false
-    }
-    timeout, err := strconv.Atoi(timeoutStr)
-    if err != nil {
-        log.Printf("Invalid timeout requested: '%v'", timeoutStr)
-        return 0, false
-    }
-    return time.Duration(timeout) * time.Second, true
+	timeoutStr := values.Get("timeout")
+	if timeoutStr == "" {
+		return 0, false
+	}
+	timeout, err := strconv.Atoi(timeoutStr)
+	if err != nil {
+		log.Printf("Invalid timeout requested: '%v'", timeoutStr)
+		return 0, false
+	}
+	return time.Duration(timeout) * time.Second, true
 }
 
 func respondOk(w http.ResponseWriter, r *http.Request) {
-    status := http.StatusOK
-    log.Printf("Responding to '%v': %v", r.RemoteAddr, status)
-    w.WriteHeader(status)
-    w.Write([]byte("Lock acquired"))
+	status := http.StatusOK
+	log.Printf("Responding to '%v': %v", r.RemoteAddr, status)
+	w.WriteHeader(status)
+	w.Write([]byte("Lock acquired"))
 }
 
 func respondLocked(w http.ResponseWriter, r *http.Request) {
-    status := http.StatusLocked
-    log.Printf("Responding to '%v': %v", r.RemoteAddr, status)
-    w.WriteHeader(status)
-    w.Write([]byte("Locked"))
+	status := http.StatusLocked
+	log.Printf("Responding to '%v': %v", r.RemoteAddr, status)
+	w.WriteHeader(status)
+	w.Write([]byte("Locked"))
 }

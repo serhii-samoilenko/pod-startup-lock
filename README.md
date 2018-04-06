@@ -1,6 +1,7 @@
 # Simple time-based lock service with HTTP interface.
 
 [![Build Status](https://travis-ci.org/serhii-samoilenko/pod-startup-lock.svg?branch=master)](https://travis-ci.org/serhii-samoilenko/pod-startup-lock)
+[![Go Report Card](https://goreportcard.com/badge/github.com/serhii-samoilenko/pod-startup-lock)](https://goreportcard.com/report/github.com/serhii-samoilenko/pod-startup-lock)
 
 #### Designed at [Oath](https://www.oath.com) to solve the [Thundering herd problem](https://en.wikipedia.org/wiki/Thundering_herd_problem) during multiple applications startup in the [Kubernetes](https://kubernetes.io) cluster. 
 
@@ -36,12 +37,12 @@ See Readmes in subfolders for details.
 ## How to build locally
 The project is built using [Make](https://www.gnu.org/software/make/).
 
-#### 1. Install [Glide](https://github.com/Masterminds/glide) and update dependencies
-The project uses Glide for dependency management. You can find installation instructions in the repo.
+#### 1. Install [Dep](https://golang.github.io/dep) and update dependencies
+The project uses Dep for dependency management. You can find installation instructions on the project page.
 
-Then run Make from the `src` folder: 
+Then run Make: 
 ```bash
-make glide
+make dep
 ```
 
 #### 2. Set target platform for Go binaries
@@ -57,7 +58,7 @@ set GOOS=windows
 ```
 
 #### 3. Build binaries
-Run Make from the `src` folder:
+Run Make:
 ```bash
 make
 ```
@@ -68,25 +69,22 @@ make darwin build
 ```
 
 Binaries will be located in sbfolder's `bin` folders:
-* `src/init/bin/init`
-* `src/k8s-health/bin/health`
-* `src/lock/bin/lock`
+* `init/bin/init`
+* `k8s-health/bin/health`
+* `lock/bin/lock`
 
 #### 4. Or Build Docker images
-Run Make from the `src` folder:
+First, you need to specify Docker user name as a variable: `DOCKER_USER`.
+
+Then run Make:
 ```bash
 make docker-build
 ```
 
-Following images will be built as a result:
- * `local/startup-lock-init:1.0`
- * `local/startup-lock-k8s-health:1.0`
- * `local/startup-lock:1.0`
-
 #### 5. Or Build Docker images and push them to the repo
 First, you need to specify Docker credentials as environment variables: `DOCKER_URL`, `DOCKER_USER`, and `DOCKER_PW`.
 
-Then run Make from the `src` folder:
+Then run Make:
 ```bash
 make docker-push
 ```

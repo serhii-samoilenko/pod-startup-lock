@@ -6,25 +6,25 @@
 package main
 
 import (
-    "github.com/serhii-samoilenko/pod-startup-lock/lock/config"
-    "github.com/serhii-samoilenko/pod-startup-lock/lock/service"
-    "github.com/serhii-samoilenko/pod-startup-lock/lock/state"
+	"github.com/serhii-samoilenko/pod-startup-lock/lock/config"
+	"github.com/serhii-samoilenko/pod-startup-lock/lock/service"
+	"github.com/serhii-samoilenko/pod-startup-lock/lock/state"
 )
 
 func main() {
-    conf := config.Parse()
-    endpointChecker := service.NewEndpointChecker(
-        conf.HealthPassTimeout,
-        conf.HealthFailTimeout,
-        conf.HealthEndpoints,
-    )
+	conf := config.Parse()
+	endpointChecker := service.NewEndpointChecker(
+		conf.HealthPassTimeout,
+		conf.HealthFailTimeout,
+		conf.HealthEndpoints,
+	)
 
-    healthFunc := endpointChecker.HealthFunction()
-    lock := state.NewLock(conf.ParallelLocks)
-    handler := service.NewLockHandler(lock, conf.LockTimeout, healthFunc)
+	healthFunc := endpointChecker.HealthFunction()
+	lock := state.NewLock(conf.ParallelLocks)
+	handler := service.NewLockHandler(lock, conf.LockTimeout, healthFunc)
 
-    go service.Run(conf.Host, conf.Port, handler)
-    go endpointChecker.Run()
+	go service.Run(conf.Host, conf.Port, handler)
+	go endpointChecker.Run()
 
-    select {} // Wait forever and let child goroutines run
+	select {} // Wait forever and let child goroutines run
 }

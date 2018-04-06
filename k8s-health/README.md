@@ -56,7 +56,7 @@ Example with some command line options:
 ```bash
 kubectl proxy -p 57585
 export NODE_NAME=10.11.10.11
-go run src/k8s-health/main.go --baseUrl http://127.0.0.1:57585 --in app:test --in version:1.1 --hostNet
+go run k8s-health/main.go --baseUrl http://127.0.0.1:57585 --in app:test --in version:1.1 --hostNet
 ```
 
 ## How to deploy to Kubernetes

@@ -6,50 +6,50 @@
 package util
 
 import (
-    "fmt"
-    "strings"
-    "log"
+	"fmt"
+	"log"
+	"strings"
 )
 
 type ArrayVal []string
 
 func (v *ArrayVal) String() string {
-    return fmt.Sprintf("%v", []string(*v))
+	return fmt.Sprintf("%v", []string(*v))
 }
 
 func (v *ArrayVal) Set(value string) error {
-    *v = append(*v, value)
-    return nil
+	*v = append(*v, value)
+	return nil
 }
 
 type Pair struct {
-    A string
-    B string
+	A string
+	B string
 }
 
 type PairArrayVal struct {
-    sep    string
-    values []Pair
+	sep    string
+	values []Pair
 }
 
 func NewPairArrayVal(sep string) PairArrayVal {
-    return PairArrayVal{sep, make([]Pair, 0)}
+	return PairArrayVal{sep, make([]Pair, 0)}
 }
 
 func (v *PairArrayVal) String() string {
-    return fmt.Sprintf("%v", v.values)
+	return fmt.Sprintf("%v", v.values)
 }
 
 func (v *PairArrayVal) Set(value string) error {
-    chunks := strings.Split(value, v.sep)
-    if len(chunks) != 2 || chunks[0] == "" || chunks[1] == "" {
-        log.Panicf("Failed to parse value: '%s'", value)
-    }
-    pair := Pair{chunks[0], chunks[1]}
-    v.values = append(v.values, pair)
-    return nil
+	chunks := strings.Split(value, v.sep)
+	if len(chunks) != 2 || chunks[0] == "" || chunks[1] == "" {
+		log.Panicf("Failed to parse value: '%s'", value)
+	}
+	pair := Pair{chunks[0], chunks[1]}
+	v.values = append(v.values, pair)
+	return nil
 }
 
 func (v *PairArrayVal) Get() []Pair {
-    return v.values
+	return v.values
 }

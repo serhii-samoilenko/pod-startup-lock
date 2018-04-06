@@ -6,118 +6,118 @@
 package service
 
 import (
-    "github.com/serhii-samoilenko/pod-startup-lock/lock/state"
-    "testing"
-    "net/http"
-    "net/http/httptest"
-    "time"
+	"github.com/serhii-samoilenko/pod-startup-lock/lock/state"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
 )
 
 var timeout = time.Duration(10) * time.Second
 
 func TestAcquireIfFirst(t *testing.T) {
-    // GIVEN
-    permitFunction := func() bool {
-        return true
-    }
-    lock := state.NewLock(1)
-    handler := NewLockHandler(lock, timeout, permitFunction)
-    req, _ := http.NewRequest("GET", "/", nil)
+	// GIVEN
+	permitFunction := func() bool {
+		return true
+	}
+	lock := state.NewLock(1)
+	handler := NewLockHandler(lock, timeout, permitFunction)
+	req, _ := http.NewRequest("GET", "/", nil)
 
-    // WHEN
-    rr := prepareResponseRecorder(req, handler)
+	// WHEN
+	rr := prepareResponseRecorder(req, handler)
 
-    // THEN
-    assertResponseStatusCode(http.StatusOK, rr.Code, t)
+	// THEN
+	assertResponseStatusCode(http.StatusOK, rr.Code, t)
 }
 
 func TestAcquireIfSecond(t *testing.T) {
-    // GIVEN
-    permitFunction := func() bool {
-        return true
-    }
+	// GIVEN
+	permitFunction := func() bool {
+		return true
+	}
 
-    lock := state.NewLock(1)
-    handler := NewLockHandler(lock, timeout, permitFunction)
-    req, _ := http.NewRequest("GET", "/", nil)
-    prepareResponseRecorder(req, handler)
+	lock := state.NewLock(1)
+	handler := NewLockHandler(lock, timeout, permitFunction)
+	req, _ := http.NewRequest("GET", "/", nil)
+	prepareResponseRecorder(req, handler)
 
-    // WHEN
-    rr := prepareResponseRecorder(req, handler)
+	// WHEN
+	rr := prepareResponseRecorder(req, handler)
 
-    // THEN
-    assertResponseStatusCode(http.StatusLocked, rr.Code, t)
+	// THEN
+	assertResponseStatusCode(http.StatusLocked, rr.Code, t)
 }
 
 func TestAcquireIfWrongTimeoutRequested(t *testing.T) {
-    // GIVEN
-    permitFunction := func() bool {
-        return true
-    }
+	// GIVEN
+	permitFunction := func() bool {
+		return true
+	}
 
-    lock := state.NewLock(1)
-    handler := NewLockHandler(lock, timeout, permitFunction)
-    req, _ := http.NewRequest("GET", "/", nil)
-    q := req.URL.Query()
-    q.Add("timeout", "a")
-    req.URL.RawQuery = q.Encode()
+	lock := state.NewLock(1)
+	handler := NewLockHandler(lock, timeout, permitFunction)
+	req, _ := http.NewRequest("GET", "/", nil)
+	q := req.URL.Query()
+	q.Add("timeout", "a")
+	req.URL.RawQuery = q.Encode()
 
-    prepareResponseRecorder(req, handler)
+	prepareResponseRecorder(req, handler)
 
-    // WHEN
-    rr := prepareResponseRecorder(req, handler)
+	// WHEN
+	rr := prepareResponseRecorder(req, handler)
 
-    // THEN
-    assertResponseStatusCode(http.StatusLocked, rr.Code, t)
+	// THEN
+	assertResponseStatusCode(http.StatusLocked, rr.Code, t)
 }
 
 func TestAcquireIfZeroTimeoutRequested(t *testing.T) {
-    // GIVEN
-    permitFunction := func() bool {
-        return true
-    }
+	// GIVEN
+	permitFunction := func() bool {
+		return true
+	}
 
-    lock := state.NewLock(1)
-    handler := NewLockHandler(lock, timeout, permitFunction)
-    req, _ := http.NewRequest("GET", "/", nil)
-    q := req.URL.Query()
-    q.Add("timeout", "0")
-    req.URL.RawQuery = q.Encode()
+	lock := state.NewLock(1)
+	handler := NewLockHandler(lock, timeout, permitFunction)
+	req, _ := http.NewRequest("GET", "/", nil)
+	q := req.URL.Query()
+	q.Add("timeout", "0")
+	req.URL.RawQuery = q.Encode()
 
-    prepareResponseRecorder(req, handler)
+	prepareResponseRecorder(req, handler)
 
-    // WHEN
-    rr := prepareResponseRecorder(req, handler)
+	// WHEN
+	rr := prepareResponseRecorder(req, handler)
 
-    // THEN
-    assertResponseStatusCode(http.StatusOK, rr.Code, t)
+	// THEN
+	assertResponseStatusCode(http.StatusOK, rr.Code, t)
 }
 
 func TestAcquireIfDisabled(t *testing.T) {
-    // GIVEN
-    permitFunction := func() bool {
-        return false
-    }
+	// GIVEN
+	permitFunction := func() bool {
+		return false
+	}
 
-    lock := state.NewLock(1)
-    handler := NewLockHandler(lock, timeout, permitFunction)
-    req, _ := http.NewRequest("GET", "/", nil)
+	lock := state.NewLock(1)
+	handler := NewLockHandler(lock, timeout, permitFunction)
+	req, _ := http.NewRequest("GET", "/", nil)
 
-    // WHEN
-    rr := prepareResponseRecorder(req, handler)
+	// WHEN
+	rr := prepareResponseRecorder(req, handler)
 
-    // THEN
-    assertResponseStatusCode(http.StatusLocked, rr.Code, t)
+	// THEN
+	assertResponseStatusCode(http.StatusLocked, rr.Code, t)
 }
 
 func assertResponseStatusCode(expected int, actual int, t *testing.T) {
-    if actual != expected {
-        t.Errorf("handler returned wrong status code: expected %v got %v", expected, actual)
-    }
+	if actual != expected {
+		t.Errorf("handler returned wrong status code: expected %v got %v", expected, actual)
+	}
 }
 
-func prepareResponseRecorder(req *http.Request, handler http.Handler) (*httptest.ResponseRecorder) {
-    rr := httptest.NewRecorder()
-    handler.ServeHTTP(rr, req)
-    return rr
+func prepareResponseRecorder(req *http.Request, handler http.Handler) *httptest.ResponseRecorder {
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+	return rr
 }
