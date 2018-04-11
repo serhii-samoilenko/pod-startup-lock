@@ -11,14 +11,14 @@ import (
 	"time"
 )
 
-var timeout = time.Duration(10) * time.Second
+var duration = time.Duration(10) * time.Second
 
 func TestAcquireSingleIfFirst(t *testing.T) {
 	// GIVEN
 	lock := NewLock(1)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.True(t, success)
@@ -27,10 +27,10 @@ func TestAcquireSingleIfFirst(t *testing.T) {
 func TestAcquireSingleIfSecond(t *testing.T) {
 	// GIVEN
 	lock := NewLock(1)
-	lock.Acquire(timeout)
+	lock.Acquire(duration)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.False(t, success)
@@ -42,7 +42,7 @@ func TestAcquireSingleIfReleased(t *testing.T) {
 	lock.Acquire(0)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.True(t, success)
@@ -53,7 +53,7 @@ func TestAcquireMultipleIfFirst(t *testing.T) {
 	lock := NewLock(2)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.True(t, success)
@@ -62,10 +62,10 @@ func TestAcquireMultipleIfFirst(t *testing.T) {
 func TestAcquireMultipleIfSecond(t *testing.T) {
 	// GIVEN
 	lock := NewLock(2)
-	lock.Acquire(timeout)
+	lock.Acquire(duration)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.True(t, success)
@@ -74,11 +74,11 @@ func TestAcquireMultipleIfSecond(t *testing.T) {
 func TestAcquireMultipleIfExceed(t *testing.T) {
 	// GIVEN
 	lock := NewLock(2)
-	lock.Acquire(timeout)
-	lock.Acquire(timeout)
+	lock.Acquire(duration)
+	lock.Acquire(duration)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.False(t, success)
@@ -88,10 +88,10 @@ func TestAcquireMultipleIfReleased(t *testing.T) {
 	// GIVEN
 	lock := NewLock(2)
 	lock.Acquire(0)
-	lock.Acquire(timeout)
+	lock.Acquire(duration)
 
 	// WHEN
-	success := lock.Acquire(timeout)
+	success := lock.Acquire(duration)
 
 	// THEN
 	require.True(t, success)

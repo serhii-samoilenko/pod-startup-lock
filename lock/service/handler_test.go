@@ -59,7 +59,7 @@ func TestAcquireIfWrongTimeoutRequested(t *testing.T) {
 	handler := NewLockHandler(lock, timeout, permitFunction)
 	req, _ := http.NewRequest("GET", "/", nil)
 	q := req.URL.Query()
-	q.Add("timeout", "a")
+	q.Add("duration", "a")
 	req.URL.RawQuery = q.Encode()
 
 	prepareResponseRecorder(req, handler)
@@ -81,7 +81,7 @@ func TestAcquireIfZeroTimeoutRequested(t *testing.T) {
 	handler := NewLockHandler(lock, timeout, permitFunction)
 	req, _ := http.NewRequest("GET", "/", nil)
 	q := req.URL.Query()
-	q.Add("timeout", "0")
+	q.Add("duration", "0")
 	req.URL.RawQuery = q.Encode()
 
 	prepareResponseRecorder(req, handler)

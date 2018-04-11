@@ -21,14 +21,14 @@ const defaultTimeout = 0
 func main() {
 	host := flag.String("host", defaultHost, "Lock service host")
 	port := flag.Int("port", defaultPort, "Lock service port")
-	timeout := flag.Int("timeout", defaultTimeout, "Custom lock timeout to request, sec")
+	duration := flag.Int("duration", defaultTimeout, "Custom lock duration to request, sec")
 	pauseSec := flag.Int("pause", defaultPause, "Pause between lock attempts, sec")
 	flag.Parse()
 
 	pause := time.Duration(*pauseSec) * time.Second
 	url := fmt.Sprintf("http://%s:%v", *host, *port)
-	if *timeout > 0 {
-		url = fmt.Sprintf("%s?timeout=%v", url, *timeout)
+	if *duration > 0 {
+		url = fmt.Sprintf("%s?duration=%v", url, *duration)
 	}
 	log.Printf("Will try to acquire lock at '%s' each '%v' sec", url, *pauseSec)
 

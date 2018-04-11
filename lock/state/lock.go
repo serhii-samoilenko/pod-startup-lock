@@ -21,21 +21,21 @@ func NewLock(maxLockCount int) Lock {
 	return Lock{maxCount: maxLockCount}
 }
 
-func (l *Lock) Acquire(timeout time.Duration) bool {
+func (l *Lock) Acquire(duration time.Duration) bool {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
 
 	l.removeExpired()
 	if len(l.locks) < l.maxCount {
-		l.addNew(timeout)
-		log.Printf("Lock acquired: %v of %v, timeout: %v", len(l.locks), l.maxCount, timeout)
+		l.addNew(duration)
+		log.Printf("Lock acquired: %v of %v, duration: %v", len(l.locks), l.maxCount, duration)
 		return true
 	}
 	return false
 }
 
-func (l *Lock) addNew(timeout time.Duration) {
-	expireTime := time.Now().Add(timeout)
+func (l *Lock) addNew(duration time.Duration) {
+	expireTime := time.Now().Add(duration)
 	l.locks = append(l.locks, expireTime)
 }
 

@@ -8,17 +8,17 @@ Then exits letting main application to start.
 ## Additional Configuration
 You may specify additional command line options to override defaults:
 
-| Option      | Default   | Description |
-| ----------- |-----------| ----------- |
-| `--port`    | 8888      | Lock Service's HTTP port |
-| `--host`    | localhost | Lock Service's hostname |
-| `--pause`   | 10        | Pause between Lock acquiring attempts, seconds |
-| `--timeout` | *none*    | Custom lock timeout to request, seconds |
+| Option       | Default   | Description |
+| ------------ |-----------| ----------- |
+| `--port`     | 8888      | Lock Service's HTTP port |
+| `--host`     | localhost | Lock Service's hostname |
+| `--pause`    | 10        | Pause between Lock acquiring attempts, seconds |
+| `--duration` | *none*    | Custom lock duration to request, seconds |
 
 ## How to run locally
 Example with some command line options:
 ```bash
-go run init/main.go --port 9000 --timeout 15
+go run init/main.go --port 9000 --duration 15
 ```
 
 ## How to deploy to Kubernetes
@@ -38,7 +38,7 @@ spec:
   initContainers:
     - name: startup-lock-init-container
       image: ssamoilenko/startup-lock-init
-      args: ["--host", "$(NODE_NAME)", "--port", "8888", "--timeout", "15"]
+      args: ["--host", "$(NODE_NAME)", "--port", "8888", "--duration", "15"]
       env:
         - name: NODE_NAME
           valueFrom:

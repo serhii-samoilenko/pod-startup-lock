@@ -12,16 +12,16 @@ Endpoints are checked constantly. Locking is allowed only if all are OK.
 
 ##### 3. First request(s) acquires the lock
 Client gets `200 OK`. Lock is acquired for a specific time. Multiple locks can be configured for parallel acquiring.
-Custom timeout may be specified in the request itself.
+Custom lock duration may be specified in the request itself.
 
 ##### 4. Subsequent requests are denied to acquire the lock
 Client gets `423 Locked` until lock timeout exceeds.
 
 ##### That's it. Steps 2 - 4 are constantly repeated
 
-## Request custom lock timeout
-You can configure default lock timeout. But each client may request custom timeout with `GET` parameter, for example, 
-`http://localhost:8888?timeout=60`
+## Request custom lock duration
+You can configure default lock timeout. But each client may request custom duration with `GET` parameter, for example, 
+`http://localhost:8888?duration=60`
 To acquire a lock for 60 seconds.
 
 ## Dependent Endpoints check

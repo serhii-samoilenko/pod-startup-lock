@@ -29,29 +29,29 @@ func (h *lockHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		respondLocked(w, r)
 		return
 	}
-	timeout, ok := getRequestedTimeout(r.URL.Query())
+	duration, ok := getRequestedDuration(r.URL.Query())
 	if !ok {
-		timeout = h.defaultTimeout
+		duration = h.defaultTimeout
 	}
 
-	if h.lock.Acquire(timeout) {
+	if h.lock.Acquire(duration) {
 		respondOk(w, r)
 	} else {
 		respondLocked(w, r)
 	}
 }
 
-func getRequestedTimeout(values url.Values) (time.Duration, bool) {
-	timeoutStr := values.Get("timeout")
-	if timeoutStr == "" {
+func getRequestedDuration(values url.Values) (time.Duration, bool) {
+	durationStr := values.Get("duration")
+	if durationStr == "" {
 		return 0, false
 	}
-	timeout, err := strconv.Atoi(timeoutStr)
+	duration, err := strconv.Atoi(durationStr)
 	if err != nil {
-		log.Printf("Invalid timeout requested: '%v'", timeoutStr)
+		log.Printf("Invalid duration requested: '%v'", durationStr)
 		return 0, false
 	}
-	return time.Duration(timeout) * time.Second, true
+	return time.Duration(duration) * time.Second, true
 }
 
 func respondOk(w http.ResponseWriter, r *http.Request) {
