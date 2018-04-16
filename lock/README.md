@@ -70,13 +70,13 @@ spec:
       containers:
         - name: startup-lock-container
           image: ssamoilenko/startup-lock
-          args: ["--port", "8888", "--locks", "1", "--check", "http://$(NODE_NAME):9999"]
+          args: ["--port", "8888", "--locks", "1", "--check", "http://$(HOST_IP):9999"]
           ports:
             - name: http
               containerPort: 8888
           env:
-            - name: NODE_NAME
+            - name: HOST_IP
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: status.hostIP
 ```
