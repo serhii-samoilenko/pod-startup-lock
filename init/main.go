@@ -11,12 +11,17 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"io"
+	"io/ioutil"
 )
 
 const defaultHost = "localhost"
 const defaultPort = 8888
 const defaultPause = 1
 const defaultTimeout = 0
+
+const maxIdleConnections = 1
+const requestTimeout = 1 * time.Second
 
 func main() {
 	host := flag.String("host", defaultHost, "Lock service host")
@@ -32,7 +37,12 @@ func main() {
 	}
 	log.Printf("Will try to acquire lock at '%s' each '%v' sec", url, *pauseSec)
 
-	client := new(http.Client)
+	client := &http.Client{
+		Transport: &http.Transport{
+			MaxIdleConnsPerHost: maxIdleConnections,
+		},
+		Timeout: requestTimeout,
+	}
 	for {
 		if acquireLock(client, url) {
 			return
@@ -47,6 +57,9 @@ func acquireLock(client *http.Client, url string) bool {
 		log.Printf("Error occurred: '%v'", err)
 		return false
 	}
+	io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
+
 	if resp.StatusCode != 200 {
 		log.Printf("Lock not acquired, waiting (status: %v)", resp.StatusCode)
 		return false

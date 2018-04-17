@@ -90,8 +90,10 @@ make docker-push
 ```
 
 ## Release Notes
-* `1.0`
-    - Initial version
+* `1.0.1`
+    - Added connection timeouts for http and tcp connections; Added keep-alive for http connections. 
+* `1.0.0`
+    - Initial version.
     
 ## Contributing
 Please feel free to submit issues, fork the repository and send pull requests!

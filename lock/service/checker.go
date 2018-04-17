@@ -11,9 +11,23 @@ import (
 	"net"
 	"net/http"
 	"time"
+	"io"
+	"io/ioutil"
 )
 
-var client = new(http.Client)
+const maxIdleConnections = 10
+const requestTimeout = 10 * time.Second
+
+var client = &http.Client{
+	Transport: &http.Transport{
+		MaxIdleConnsPerHost: maxIdleConnections,
+	},
+	Timeout: requestTimeout,
+}
+
+var dialer = &net.Dialer{
+	Timeout: requestTimeout,
+}
 
 type EndpointChecker struct {
 	waitOnPass time.Duration
@@ -69,7 +83,7 @@ func check(endpoint Endpoint) bool {
 }
 
 func checkRaw(endpoint RawEndpoint) bool {
-	conn, err := net.Dial(endpoint.Protocol(), endpoint.Address())
+	conn, err := dialer.Dial(endpoint.Protocol(), endpoint.Address())
 	if err != nil {
 		log.Printf("'%v' endpoint connection failed: '%v'", endpoint, err)
 		return false
@@ -85,6 +99,9 @@ func checkHttp(endpoint HttpEndpoint) bool {
 		log.Printf("'%v' endpoint connection failed: '%v'", endpoint, err)
 		return false
 	}
+	io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
+
 	if isSuccessful(resp.StatusCode) {
 		log.Printf("'%v' endpoint OK (status: %v)", endpoint, resp.StatusCode)
 		return true

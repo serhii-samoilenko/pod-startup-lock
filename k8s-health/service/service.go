@@ -9,7 +9,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
+
+const readTimeout = 2 * time.Second
+const writeTimeout = 5 * time.Second
+const idleTimeout = 10 * time.Second
 
 type Service struct {
 	host       string
@@ -24,14 +29,21 @@ func NewService(host string, port int, healthFunc func() bool) Service {
 func (s *Service) Run() {
 	log.Print("Starting Http Service...")
 	addr := fmt.Sprintf("%s:%v", s.host, s.port)
-	http.HandleFunc("/", s.handler)
-	err := http.ListenAndServe(addr, nil)
+	srv := &http.Server{
+		Addr:         addr,
+		Handler:      s,
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
+		IdleTimeout:  idleTimeout,
+	}
+
+	err := srv.ListenAndServe()
 	if err != nil {
 		log.Panic("Http Service failed to start: ", err)
 	}
 }
 
-func (s *Service) handler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if s.healthFunc() {
 		respondOk(w, r)
 	} else {

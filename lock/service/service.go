@@ -9,12 +9,25 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
+
+const readTimeout = 2 * time.Second
+const writeTimeout = 2 * time.Second
+const idleTimeout = 10 * time.Second
 
 func Run(host string, port int, handler http.Handler) {
 	log.Print("Starting Http Service...")
 	addr := fmt.Sprintf("%s:%v", host, port)
-	err := http.ListenAndServe(addr, handler)
+
+	srv := &http.Server{
+		Addr:         addr,
+		Handler:      handler,
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
+		IdleTimeout:  idleTimeout,
+	}
+	err := srv.ListenAndServe()
 	if err != nil {
 		log.Panic("Http Service failed to start: ", err)
 	}
