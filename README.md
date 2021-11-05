@@ -89,6 +89,8 @@ make docker-push
 ```
 
 ## Release Notes
+* `1.0.2`
+    - Bumped Go version to 1.16. Bumped Kubernetes version to 1.16.
 * `1.0.1`
     - Added connection timeouts for http and tcp connections; Added keep-alive for http connections. 
 * `1.0.0`
