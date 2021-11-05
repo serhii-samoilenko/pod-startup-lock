@@ -36,12 +36,28 @@ See Readmes in subfolders for details.
 ## How to build locally
 The project is built using [Make](https://www.gnu.org/software/make/).
 
+#### 0. Install [Go](https://golang.org/dl/)
+
+```bash
+wget https://golang.org/dl/go1.16.10.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.16.10.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+```
+
 #### 1. Install [Dep](https://golang.github.io/dep) and update dependencies
 The project uses Dep for dependency management. You can find installation instructions on the project page.
+
+```bash
+mkdir -p ~/go/{bin,src}
+curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+```
 
 Then run Make: 
 ```bash
 make dep
+go mod init
+go mod tidy
+go mod vendor
 ```
 
 #### 2. Set target platform for Go binaries
