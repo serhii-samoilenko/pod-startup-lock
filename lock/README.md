@@ -69,7 +69,7 @@ spec:
         kubernetes.io/role: node
       containers:
         - name: startup-lock-container
-          image: ssamoilenko/startup-lock
+          image: lisenet/startup-lock
           args: ["--port", "8888", "--locks", "1", "--check", "http://$(HOST_IP):9999"]
           ports:
             - name: http

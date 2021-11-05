@@ -78,7 +78,7 @@ spec:
         kubernetes.io/role: node
       containers:
         - name: startup-lock-k8s-health-container
-          image: ssamoilenko/startup-lock-k8s-health
+          image: lisenet/startup-lock-k8s-health
           args: ["--port", "9999", "--hostNet"]
           ports:
             - name: http

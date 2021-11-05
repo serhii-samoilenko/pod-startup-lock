@@ -37,7 +37,7 @@ spec:
       command: ['sh', '-c', 'echo The app is running! && sleep 3600']
   initContainers:
     - name: startup-lock-init-container
-      image: ssamoilenko/startup-lock-init
+      image: lisenet/startup-lock-init
       args: ["--host", "$(HOST_IP)", "--port", "8888", "--duration", "15"]
       env:
         - name: HOST_IP
