@@ -6,8 +6,8 @@
 package k8s
 
 import (
-	. "github.com/serhii-samoilenko/pod-startup-lock/common/util"
-	. "github.com/serhii-samoilenko/pod-startup-lock/k8s-health/config"
+	. "github.com/lisenet/pod-startup-lock/common/util"
+	. "github.com/lisenet/pod-startup-lock/k8s-health/config"
 	"k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"

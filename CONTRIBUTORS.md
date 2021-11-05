@@ -1,6 +1,6 @@
 startup-lock contributors
 ============================================
 
-* **[Serhii Samoilenko](https://github.com/serhii-samoilenko)**
+* **[Serhii Samoilenko](https://github.com/lisenet)**
 
   * Initial tool design and implementation

@@ -7,7 +7,7 @@ package config
 
 import (
 	"flag"
-	. "github.com/serhii-samoilenko/pod-startup-lock/common/util"
+	. "github.com/lisenet/pod-startup-lock/common/util"
 	"log"
 	"os"
 	"time"

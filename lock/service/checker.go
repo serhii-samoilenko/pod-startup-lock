@@ -6,7 +6,7 @@
 package service
 
 import (
-	. "github.com/serhii-samoilenko/pod-startup-lock/lock/config"
+	. "github.com/lisenet/pod-startup-lock/lock/config"
 	"log"
 	"net"
 	"net/http"

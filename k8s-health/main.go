@@ -6,10 +6,10 @@
 package main
 
 import (
-	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/config"
-	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/healthcheck"
-	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/k8s"
-	"github.com/serhii-samoilenko/pod-startup-lock/k8s-health/service"
+	"github.com/lisenet/pod-startup-lock/k8s-health/config"
+	"github.com/lisenet/pod-startup-lock/k8s-health/healthcheck"
+	"github.com/lisenet/pod-startup-lock/k8s-health/k8s"
+	"github.com/lisenet/pod-startup-lock/k8s-health/service"
 )
 
 func main() {

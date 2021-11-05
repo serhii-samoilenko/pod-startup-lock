@@ -6,9 +6,9 @@
 package main
 
 import (
-	"github.com/serhii-samoilenko/pod-startup-lock/lock/config"
-	"github.com/serhii-samoilenko/pod-startup-lock/lock/service"
-	"github.com/serhii-samoilenko/pod-startup-lock/lock/state"
+	"github.com/lisenet/pod-startup-lock/lock/config"
+	"github.com/lisenet/pod-startup-lock/lock/service"
+	"github.com/lisenet/pod-startup-lock/lock/state"
 )
 
 func main() {
