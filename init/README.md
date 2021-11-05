@@ -38,6 +38,7 @@ spec:
   initContainers:
     - name: startup-lock-init-container
       image: lisenet/startup-lock-init
+      imagePullPolicy: IfNotPresent
       args: ["--host", "$(HOST_IP)", "--port", "8888", "--duration", "15"]
       env:
         - name: HOST_IP

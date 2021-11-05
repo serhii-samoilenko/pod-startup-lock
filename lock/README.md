@@ -53,11 +53,14 @@ go run lock/main.go --port 9000 --locks 2 --check http://myelasticsearch:9200 --
 ## How to deploy to Kubernetes
 The preferable way is to deploy as a DaemonSet. Sample deployment YAML (notice checked endpoint):
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: startup-lock
 spec:
+  selector:
+    matchLabels:
+      app: startup-lock
   template:
     metadata:
       labels:
@@ -66,10 +69,11 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        kubernetes.io/role: node
+        kubernetes.io/os: linux
       containers:
         - name: startup-lock-container
           image: lisenet/startup-lock
+          imagePullPolicy: IfNotPresent
           args: ["--port", "8888", "--locks", "1", "--check", "http://$(HOST_IP):9999"]
           ports:
             - name: http
