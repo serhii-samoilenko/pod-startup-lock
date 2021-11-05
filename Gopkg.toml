@@ -9,12 +9,12 @@ ignored = [
 
 [[constraint]]
   name = "k8s.io/client-go"
-  version = "kubernetes-1.10.0"
+  version = "0.16.0"
 
-#[[constraint]]
-#  branch = "master"
-#  name = "k8s.io/api"
-#
+[[constraint]]
+  name = "k8s.io/api"
+  version = "0.16.0"
+
 #[[constraint]]
 #  branch = "master"
 #  name = "k8s.io/apimachinery"
