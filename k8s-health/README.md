@@ -62,11 +62,14 @@ go run k8s-health/main.go --baseUrl http://127.0.0.1:57585 --in app:test --in ve
 ## How to deploy to Kubernetes
 The preferable way is to deploy as a DaemonSet. Sample deployment YAML:
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: startup-lock-k8s-health
 spec:
+  selector:
+    matchLabels:
+      app: startup-lock-k8s-health
   template:
     metadata:
       labels:
@@ -75,10 +78,11 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        kubernetes.io/role: node
+        kubernetes.io/os: linux
       containers:
         - name: startup-lock-k8s-health-container
           image: lisenet/startup-lock-k8s-health
+          imagePullPolicy: IfNotPresent
           args: ["--port", "9999", "--hostNet"]
           ports:
             - name: http
