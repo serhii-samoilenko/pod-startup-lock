@@ -9,11 +9,11 @@ ignored = [
 
 [[constraint]]
   name = "k8s.io/client-go"
-  version = "0.16.0"
+  version = "0.18.0"
 
 [[constraint]]
   name = "k8s.io/api"
-  version = "0.16.0"
+  version = "0.18.0"
 
 #[[constraint]]
 #  branch = "master"

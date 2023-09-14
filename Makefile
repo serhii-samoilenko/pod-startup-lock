@@ -18,7 +18,7 @@ windows:
 
 dep:
 	@echo ">>> Make: Updating dependencies"
-	dep ensure
+	dep ensure -v
 
 build:
 	@echo ">>> Make: Building all modules"
