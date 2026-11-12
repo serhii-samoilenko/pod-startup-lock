@@ -2,7 +2,7 @@ sudo: required
 
 language: go
 go:
-  - "1.25"
+  - "1.26"
 
 services:
   - docker
